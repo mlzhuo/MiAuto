@@ -27,7 +27,7 @@
     "bssid": "If the phone cannot find the car, keep the phone's Bluetooth and Wi-Fi on, keep both screens awake, and try again. The car re-advertises itself every 30 seconds while it is unconnected, so a pairing prompt that was dismissed on the phone will come back on its own.",
     "whats": "What's new",
     "features": [
-      "**0.1.1 — wording update.** ICCOA CarLink is a standard jointly initiated by Xiaomi, OPPO and vivo. The home screen, the About and Support screens and the legal notice now name Xiaomi CarWith, OPPO Car+ and vivo Jovi InCar together instead of Xiaomi alone, and Traditional Chinese home-screen strings were added. No behaviour change.",
+      "**0.1.10 — the fork's first published release, tuned for the BYD 宋 Pro DM-i 2022 head unit.** The car starts the app by itself after a reboot, the phone needs no unlocking, and the session reconnects on its own afterwards. Navigation voice and music play at the same time, the steering wheel changes tracks, and the map is basically smooth once CarWith is set to 60 fps. The full version-by-version history is in the repository README.",
       "**Wireless ICCOA CarLink reception** — Xiaomi CarWith, OPPO Car+, vivo Jovi InCar and similar phones; the phone stays in the pocket or on the wireless charger.",
       "**Automatic pairing code** with a 30-second re-advertise watchdog, so a dismissed prompt on the phone comes back without restarting the app.",
       "**Full settings tree inherited from the base project** — connection, display, video, input, audio, backup, reset and diagnostics.",
@@ -36,7 +36,7 @@
       "**Own package and signing key**, so MiAuto can be installed next to other receiver apps on the same head unit."
     ],
     "compat": "Compatibility",
-    "compatText": "**Verified on a Newland NLS-MT9055-GL running Android 11 (arm64):** the app installs, starts, advertises, shows a pairing code and completes a CarWith session, and the pairing code survives a cold start. **Not yet verified:** installation and pairing on a BYD or other production head unit, and the cluster / HUD projection paths, which are carried over from the base project and have not been exercised on hardware with MiAuto's protocol stack. If you run one of those setups, expect to be an early tester and please report what you see.",
+    "compatText": "**Verified on a BYD 宋 Pro DM-i 2022 head unit (DiLink 5.1, Android 10 / API 29, QUALCOMM trinket arm64, 1920×990) with a Xiaomi 15 running HyperOS 4:** the app installs, starts by itself after a reboot, advertises, shows a pairing code, completes a CarWith session, and the phone comes back on its own after a disconnect. **Not yet verified:** the instrument cluster mirror and the windshield HUD navigation, which are carried over from the base project and have not been exercised on hardware. If you run one of those setups, expect to be an early tester and please report what you see.",
     "highlightsTitle": "What this project actually does",
     "highlightsLead": "MiAuto is a car-side receiver for ICCOA CarLink — the one protocol behind Xiaomi CarWith, OPPO Car+ and vivo Jovi InCar. It is built on an existing Android Auto head-unit project, with the phone-side protocol swapped for that one — so the parts that were already solid came along, and the new part is the one that needed real testing.",
     "cards": [
@@ -81,7 +81,7 @@
       [
         "ICCOA CarLink session over the air",
         "Verified on hardware",
-        "Newland NLS-MT9055-GL, Android 11, arm64"
+        "BYD 宋 Pro DM-i 2022 (Android 10, arm64) + Xiaomi 15 / HyperOS 4"
       ],
       [
         "Pairing code shown and re-advertised",
@@ -89,9 +89,29 @@
         "Survives a cold start; 30-second watchdog confirmed"
       ],
       [
+        "Boot auto-start and self-reconnect",
+        "Verified on hardware",
+        "The car starts the app; the phone returns without being unlocked"
+      ],
+      [
+        "Navigation voice and music together",
+        "Verified on hardware",
+        "Per-source audio focus; no silent audio loss"
+      ],
+      [
+        "Steering-wheel media keys",
+        "Verified on hardware",
+        "Previous / next / play-pause reach the phone"
+      ],
+      [
+        "Map playback smoothness",
+        "Basically smooth",
+        "Wi-Fi lock held during projection; set CarWith to 60 fps"
+      ],
+      [
         "BYD instrument cluster mirror",
         "Implemented, unverified",
-        "Carried over from the base project; no BYD unit available"
+        "Carried over from the base project; not exercised on hardware"
       ],
       [
         "BYD windshield HUD navigation",
@@ -140,7 +160,7 @@
     "bssid": "若手机找不到车机，请保持手机蓝牙与 WiFi 开启、两块屏幕都亮着，然后重试。车机在未连接状态下每 30 秒重新广播一次，因此手机上被关掉的配对弹窗会自己回来。",
     "whats": "更新内容",
     "features": [
-      "**0.1.1 —— 文案更新。** ICCOA CarLink 是小米、OPPO、vivo 联合发起的标准。首页、「关于」「支持」页面与法务声明改为并列书写「小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar」，不再只提小米；并补上繁体中文首页文案。行为与 0.1.0 一致。",
+      "**0.1.10 —— 本 fork 的首个发布版，针对比亚迪 宋 Pro DM-i 2022 款车机调优。** 车机开机自己把应用起起来，手机不必解锁，断开后自己回连；导航语音与音乐同时播放，方向盘切歌正常，CarWith 帧率设为 60 后地图已基本不卡。逐版记录见仓库 README。",
       "**无线接收 ICCOA CarLink 手机端**（小米 CarWith / OPPO Car+ 车联 / vivo Jovi InCar 等）—— 手机放在兜里或无线充电板上即可。",
       "**配对码自动出现**，并带 30 秒重播看门狗：手机上误关的配对弹窗会自己回来，无需重启应用。",
       "**完整继承基座的设置体系** —— 连接、显示、视频、输入、音频、备份、重置与诊断。",
@@ -149,7 +169,7 @@
       "**独立包名与独立签名密钥**，可与同车机上的其他接收端应用并存。"
     ],
     "compat": "兼容性",
-    "compatText": "**已验证：** 在 Newland NLS-MT9055-GL（Android 11 / arm64）上，应用可安装、可启动、可广播、可显示配对码并完成一次 CarWith 会话，且配对码在冷启动后依然有效。**尚未验证：** 在比亚迪或其他量产车机上的安装与配对，以及仪表盘 / HUD 投屏链路 —— 这些继承自基座，尚未与 MiAuto 的协议栈一起在真实车机上跑过。若你正好在用这类设备，请把自己当作早期测试者，并把现象反馈给我们。",
+    "compatText": "**已验证：** 在比亚迪 宋 Pro DM-i 2022 款车机（DiLink 5.1 / Android 10 API 29 / QUALCOMM trinket arm64 / 1920×990）上，配合小米 15（澎湃 OS 4 / CarWith）：应用可安装、开机后自己起来、可广播、可显示配对码、可完成一次 CarWith 会话，且断开后手机会自己回连。**尚未验证：** 仪表盘镜像与挡风玻璃 HUD 导航 —— 这两条链路继承自基座，尚未在真机上跑过。若你正好在用这类车机，请把自己当作早期测试者，并把现象反馈给我们。",
     "highlightsTitle": "这个项目实际做了什么",
     "highlightsLead": "MiAuto 是 ICCOA CarLink 的车机端接收器 —— 小米 CarWith、OPPO Car+ 车联、vivo Jovi InCar 走的都是这一套协议。它以既有的 Android Auto 车机端工程为基座，把手机侧协议换成这一套 —— 于是原本就稳的部分得以沿用，而真正需要实测的，是换掉的那一块。",
     "cards": [
@@ -194,7 +214,7 @@
       [
         "空中建立 ICCOA CarLink 会话",
         "真机已验证",
-        "Newland NLS-MT9055-GL / Android 11 / arm64"
+        "比亚迪 宋 Pro DM-i 2022（Android 10 / arm64）+ 小米 15 / 澎湃 OS 4"
       ],
       [
         "配对码显示与重播",
@@ -202,9 +222,29 @@
         "冷启动后仍有效；30 秒看门狗已确认"
       ],
       [
+        "开机自启动与自动回连",
+        "真机已验证",
+        "车机自己起应用；手机不解锁也会回来"
+      ],
+      [
+        "导航语音与音乐同时播放",
+        "真机已验证",
+        "各音源独立音频焦点；不再被静默丢音"
+      ],
+      [
+        "方向盘媒体键",
+        "真机已验证",
+        "上一曲 / 下一曲 / 播放暂停透传到手机"
+      ],
+      [
+        "地图播放流畅度",
+        "已基本流畅",
+        "投屏期间持有 Wi-Fi 锁；CarWith 帧率设为 60"
+      ],
+      [
         "比亚迪仪表盘镜像",
         "已实现，未验证",
-        "继承自基座；手上没有比亚迪车机"
+        "继承自基座；未在真机上跑过"
       ],
       [
         "比亚迪挡风玻璃 HUD 导航",

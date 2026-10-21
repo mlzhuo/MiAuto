@@ -17,6 +17,25 @@ plugins {
     kotlin("kapt")
 }
 
+// 版本号唯一来源：每次真正构建 APK 时末位与 versionCode 各 +1。
+// 只看请求的任务名，IDE 同步、compile、test 不会触发自增。
+val versionFile = rootProject.file("version.properties")
+val versionProps = Properties().apply {
+    if (versionFile.exists()) versionFile.inputStream().use { load(it) }
+}
+var miVersionName = versionProps.getProperty("versionName") ?: "0.1.1"
+var miVersionCode = versionProps.getProperty("versionCode")?.toIntOrNull() ?: 2
+val assembling = gradle.startParameter.taskNames.any {
+    val n = it.substringAfterLast(':').lowercase()
+    n.startsWith("assemble") || n.startsWith("install") || n == "build"
+}
+if (assembling) {
+    val parts = miVersionName.split(".")
+    miVersionName = (parts.dropLast(1) + ((parts.last().toIntOrNull() ?: 0) + 1)).joinToString(".")
+    miVersionCode += 1
+    versionFile.writeText("versionName=$miVersionName\nversionCode=$miVersionCode\n")
+}
+
 android {
     compileSdk = 36
     ndkVersion = "29.0.14206865"
@@ -87,8 +106,8 @@ android {
         applicationId = "com.miauto.app"
         minSdk = 16
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.1.1"
+        versionCode = miVersionCode
+        versionName = miVersionName
         setProperty("archivesBaseName", "${applicationId}_${versionName}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -232,12 +251,8 @@ android {
         variant.outputs
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
-                var outputFileName = "${variant.applicationId}_${variant.versionName}_debug.apk"
-                if(variant.buildType.name == "release") {
-                    outputFileName = "${variant.applicationId}_${variant.versionName}.apk"
-                    output.outputFileName = outputFileName
-                }
-                output.outputFileName = outputFileName
+                // miVersionName 不含 buildType 的 "-debug" 后缀：com.miauto.app.debug_0.1.3.apk
+                output.outputFileName = "${variant.applicationId}_${miVersionName}.apk"
             }
     }
 }

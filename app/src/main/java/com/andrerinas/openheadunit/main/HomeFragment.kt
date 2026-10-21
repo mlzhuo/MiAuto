@@ -83,7 +83,10 @@ class HomeFragment : Fragment() {
             IcocaBridge.Phase.Pairing -> getString(R.string.da_connecting)
             IcocaBridge.Phase.Connected -> getString(R.string.da_connected)
         }
-        view.findViewById<TextView>(R.id.connection_status)?.text = status
+        // Keep the last failure code on screen: a car has no log console we can ask the driver to read.
+        val error = state.lastError
+        view.findViewById<TextView>(R.id.connection_status)?.text =
+            if (error == null) status else "$status · $error"
 
         // Null-tolerant lookups: the layout has an orientation-specific variant, and a missing view
         // must never take the standby screen down while it is the only thing the driver can see.

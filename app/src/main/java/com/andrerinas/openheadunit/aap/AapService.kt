@@ -738,9 +738,9 @@ class AapService : Service(), UsbReceiver.Listener {
         // Initialize MediaSession early and set it active immediately.
         // This ensures media button routing works even BEFORE an AA connection,
         // which is critical for keymap configuration and early button presses.
-        // ICCOA-only: an active MediaSession with playback actions would make the car's media keys
-        // resolve to this app instead of the phone's audio. The ICCOA SDK carries media control over
-        // its own channel, so MiAuto deliberately stays out of the way.
+        // ICCOA-only: IcocaBridge owns a separate MediaSession while a phone is connected and
+        // forwards media keys over the CarLink control channel. Keeping AAP's session out of the
+        // way avoids two sessions in the same app fighting over the same keys.
         if (!BuildConfig.ICCOA_ONLY) {
             if (mediaSession == null) {
                 setupMediaSession()

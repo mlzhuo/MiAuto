@@ -15,9 +15,9 @@ from html import escape as e
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site'
 data = json.loads((SITE / 'content.json').read_text(encoding='utf-8'))
-BASE = 'https://piggybackbayonet.github.io/MiAuto/'
-REPO = 'https://github.com/PiggyBackBayonet/MiAuto'
-VERSION = '0.1.1'
+BASE = 'https://mlzhuo.github.io/MiAuto/'
+REPO = 'https://github.com/mlzhuo/MiAuto'
+VERSION = '0.1.10'
 TAG = 'v' + VERSION
 RELEASE = REPO + '/releases/tag/' + TAG
 DOWNLOAD = REPO + '/releases/download/' + TAG + '/MiAuto-' + VERSION + '.apk'

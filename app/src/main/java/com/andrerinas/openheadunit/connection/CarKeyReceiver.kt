@@ -136,6 +136,13 @@ class CarKeyReceiver : BroadcastReceiver() {
             ))
         })
         commManager.sendKey(keyCode, isDown, null, "carkey")
+        // Some head units deliver media keys as an ordered broadcast instead of through a
+        // MediaSession. While an ICCOA phone is connected its session owns the keys, so hand
+        // them to the phone rather than swallowing them here.
+        val bridge = App.provide(context).icocaBridge
+        if (bridge.state.value.phase == IcocaBridge.Phase.Connected) {
+            bridge.sendMediaKey(keyCode, isDown)
+        }
     }
 
     /** Full click (DOWN + UP) — broadcasts both events for learning AND sends to AA. */
